@@ -1,6 +1,6 @@
 <template>
   <div class="column items-center justify-center q-pa-xl">
-    <img :src="logo" alt="FoodSaving logo" style="max-width: 100%; width: 600px;" />
+    <img :src="logo" alt="FoodSharing logo" style="max-width: 100%; width: 600px;" />
     <div class="row q-gutter-md q-mt-md">
       <QBtn unelevated color="primary" label="Log in" to="/login" />
       <QBtn unelevated outline color="primary" label="Sign up" to="/signup" />
