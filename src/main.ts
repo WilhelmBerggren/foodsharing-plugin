@@ -8,7 +8,7 @@ export default {
 
     router.addRoute({
       name: "fss-landing",
-      path: "/welcome",
+      path: "/fss-welcome",
       meta: {
         fullpage: true,
         breadcrumbs: [
