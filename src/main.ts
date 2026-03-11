@@ -7,7 +7,7 @@ export default {
     setCssVar("primary", "#581845");
 
     router.addRoute({
-      name: "landing",
+      name: "fss-landing",
       path: "/welcome",
       meta: {
         fullpage: true,
