@@ -4,8 +4,8 @@ import Landing from "./components/Landing.vue";
 export default {
   boot({ router }: { router: Router }) {
     router.addRoute({
-      name: "fss-landing",
-      path: "/fss-welcome",
+      name: "landing",
+      path: "/welcome",
       meta: {
         fullpage: true,
         breadcrumbs: [
