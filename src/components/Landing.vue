@@ -154,7 +154,8 @@ const toggleLanguage = () => {
   // TODO: implement i18n / route change
   console.log('Toggle language')
 }
-const logo = new URL('../assets/fwdloggafss/FSS logga 6.1.png', import.meta.url).href
+// const logo = new URL('../assets/fwdloggafss/FSS logga 6.1.png', import.meta.url).href
+const logo = new URL('https://raw.githubusercontent.com/WilhelmBerggren/foodsharing-plugin/refs/heads/main/src/assets/fwdloggafss/FSS%20logga%206.1.png').href
 </script>
 
 <style scoped>
