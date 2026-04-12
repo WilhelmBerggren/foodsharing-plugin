@@ -32,17 +32,6 @@ info@foodsharing.se
     <!-- ===================== HERO SECTION ===================== -->
     <section class="hero-section">
 
-      <!-- Language toggle — top-right on tablet/desktop -->
-      <!-- <div class="hero-lang-corner gt-xs">
-        <q-btn
-          unelevated
-          dense
-          label="ENG"
-          class="lang-corner-btn"
-          @click="toggleLanguage"
-        />
-      </div> -->
-
       <!-- Centred hero content -->
       <div class="hero-content">
 
@@ -56,42 +45,24 @@ info@foodsharing.se
         </div>
 
         <!-- Headline -->
-        <h1 class="hero-headline">
-          Den här hemsidan är
-          <span class="hero-headline-highlight">nyplanterad</span><span
-            class="hero-sprout"
-            aria-hidden="true"
-          >
-            <!-- Small leaf SVG matching the Figma design -->
-            <svg width="22" height="28" viewBox="0 0 22 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M11 28C11 28 2 18 2 10C2 5.02944 6.02944 1 11 1C15.9706 1 20 5.02944 20 10C20 18 11 28 11 28Z"
-                fill="#6BAF20"
-              />
-            </svg>
-          </span>
-        </h1>
-
-        <!-- Subtitle -->
-        <p class="hero-subtitle">
-          Titta gärna in snart igen och se hur den växer fram
-        </p>
-
-        <!-- Language button — mobile only, below subtitle -->
-        <!-- <div class="lt-sm q-mt-xl">
-          <q-btn
-            outline
-            label="English"
-            class="lang-mobile-btn"
-            @click="toggleLanguage"
-          />
-        </div> -->
+        <img
+          :src="heroBannerWide"
+          alt="Den här hemsidan är nyplanterad"
+          class="hero-banner hero-banner--wide"
+        />
+        <img
+          :src="heroBannerNarrow"
+          alt="Den här hemsidan är nyplanterad"
+          class="hero-banner hero-banner--narrow"
+        />
 
       </div>
 
       <!-- Scroll chevron — tablet/desktop only -->
-      <div class="hero-chevron gt-xs">
-        <q-icon name="keyboard_arrow_down" color="white" size="2.2rem" />
+      <div class="hero-chevron" @click="scrollToAbout">
+        <svg width="82" height="51" viewBox="0 0 82 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 10L41 40.5L71.5 10" stroke="white" stroke-width="8"/>
+        </svg>
       </div>
 
     </section>
@@ -147,15 +118,17 @@ info@foodsharing.se
 </template>
 
 <script setup>
-// ---------------------------------------------------------------------------
-// Language toggle — swap between Swedish and English content
-// ---------------------------------------------------------------------------
-const toggleLanguage = () => {
-  // TODO: implement i18n / route change
-  console.log('Toggle language')
-}
+const scrollToAbout = () => {
+  const aboutSection = document.querySelector('.about-section');
+  if (aboutSection) {
+    aboutSection.scrollIntoView({ behavior: 'smooth' });
+  }
+};
+
 // const logo = new URL('../assets/fwdloggafss/FSS logga 6.1.png', import.meta.url).href
-const logo = new URL('https://raw.githubusercontent.com/WilhelmBerggren/foodsharing-plugin/refs/heads/main/src/assets/fwdloggafss/FSS%20logga%206.1.png').href
+const logo = new URL('https://raw.githubusercontent.com/WilhelmBerggren/foodsharing-plugin/refs/heads/main/src/assets/fwdloggafss/FSS%20logga%206.2.png').href
+const heroBannerWide = new URL('https://raw.githubusercontent.com/WilhelmBerggren/foodsharing-plugin/refs/heads/main/src/assets/banner/Hero_title_plant_wide.png').href
+const heroBannerNarrow = new URL('https://raw.githubusercontent.com/WilhelmBerggren/foodsharing-plugin/refs/heads/main/src/assets/banner/Hero_title_plant_narrow.png').href
 </script>
 
 <style scoped>
@@ -163,7 +136,7 @@ const logo = new URL('https://raw.githubusercontent.com/WilhelmBerggren/foodshar
    DESIGN TOKENS
    ============================================================ */
 :root {
-  --fss-dark-green   : #0d2818;
+  --fss-dark-green   : #002809;
   --fss-olive-green  : #6b9a1a;
   --fss-orange       : #e8761a;
   --fss-white        : #ffffff;
@@ -183,7 +156,7 @@ const logo = new URL('https://raw.githubusercontent.com/WilhelmBerggren/foodshar
    ============================================================ */
 .hero-section {
   position: relative;
-  background-color: #0d2818;
+  background-color: #002809;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -226,33 +199,37 @@ const logo = new URL('https://raw.githubusercontent.com/WilhelmBerggren/foodshar
 }
  
 .hero-logo {
-  width: 88px;
-  height: 88px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
   border: 3px solid #ffffff;
-  object-fit: cover;
+  object-fit: contain;
   background: #fff;     /* fallback while image loads */
 }
  
-/* Headline */
-.hero-headline {
-  font-size: clamp(1.75rem, 4.5vw, 3.2rem);
-  font-weight: 800;
-  color: #ffffff;
-  line-height: 1.2;
+/* Headline banners */
+.hero-banner {
+  max-width: 100%;
+  height: auto;
   margin: 0 0 18px;
 }
- 
-.hero-headline-highlight {
-  color: #e8761a;
+
+.hero-banner--wide {
+  display: block;
 }
- 
-/* Inline sprout icon next to headline */
-.hero-sprout {
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 4px;
-  margin-bottom: 4px;
+
+.hero-banner--narrow {
+  display: none;
+}
+
+@media (max-width: 599px) {
+  .hero-banner--wide {
+    display: none;
+  }
+
+  .hero-banner--narrow {
+    display: block;
+  }
 }
  
 /* Subtitle */
@@ -291,7 +268,7 @@ const logo = new URL('https://raw.githubusercontent.com/WilhelmBerggren/foodshar
    ABOUT SECTION
    ============================================================ */
 .about-section {
-  background-color: #6b9a1a;
+  background-color: #739f0c;
   padding: 64px 24px;
 }
  
@@ -355,7 +332,7 @@ const logo = new URL('https://raw.githubusercontent.com/WilhelmBerggren/foodshar
    CONTACT / FOOTER SECTION
    ============================================================ */
 .contact-section {
-  background-color: #0d2818;
+  background-color: #002809;
   padding: 64px 24px 80px;
 }
  
@@ -409,8 +386,8 @@ const logo = new URL('https://raw.githubusercontent.com/WilhelmBerggren/foodshar
   }
  
   .hero-logo {
-    width: 72px;
-    height: 72px;
+    width: 86px;
+    height: 86px;
   }
  
   .about-section,
