@@ -17,50 +17,18 @@
             v-bind="section"
         />
 
-        <GroupsSection :groups="groupsData" />
-
-        <section class="about-section" ref="aboutSection"></section>
+        <GroupsSection />
 
         <FssFooter />
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
 import FssToolbar from "./Landing2/components/FssToolbar.vue";
 import HeroSection from "./Landing2/components/HeroSection.vue";
 import BodySection from "./Landing2/components/BodySection.vue";
 import GroupsSection from "./Landing2/components/GroupsSection.vue";
 import FssFooter from "./Landing2/components/FssFooter.vue";
-
-interface Group {
-    id: string;
-    name: string;
-    member_count: number;
-    public_description: string;
-    photo_urls: {
-        thumbnail?: string;
-    };
-}
-
-const groupsData = ref<Group[]>([]);
-const aboutSection = ref<HTMLElement | null>(null);
-
-const fetchGroupData = async () => {
-    try {
-        const response = await fetch(
-            "/api/bootstrap?fields=groups%2Cplaces%2Cgeoip",
-        );
-        const data = await response.json();
-        groupsData.value = [...data.groups].sort(
-            (a, b) => b.member_count - a.member_count,
-        );
-    } catch (e) {
-        console.error("Failed to fetch group data:", e);
-    }
-};
-
-onMounted(fetchGroupData);
 
 const heroBanner = new URL(
     "https://github.com/WilhelmBerggren/foodsharing-plugin/blob/main/src/assets/banner/plastic_bag_with_food.png?raw=true",
@@ -78,20 +46,28 @@ const taEmotMatImg = new URL(
 const bodySections = [
     {
         title: "Foodsharing Sweden",
-        text: "Vi organiserar oss genom hela Sverige som del av en rörelse för att kunna minska matsvinn och främja delande av matöverskott. Främst genom samarbete med våra olika samarbetspartners, butiker, bageer, osv. Genom öppna matutdelningar lyckas vi göra en konkret handling för miljön och för medmänniskor. Att dela utan motprestation är ett självklart sätt att skapa gemenskap! Hjälp oss att rädda maten, tillsammans!",
+        text: [
+            "Gå med i en rörelse för att minska matsvinn och främja delande av matöverskott! Genom samarbete med våra olika samarbetspartners – butiker, bagerier, och andra aktörer. – samt öppna matutdelningar gör vi en konkret insats för miljön och våra medmänniskor.",
+            "",
+            "Att dela utan motprestation är ett självklart sätt att skapa gemenskap. Hjälp oss att rädda maten - tillsammans!",
+        ],
         variant: "even" as const,
         bgImage: bg,
     },
     {
         title: "Starta en grupp",
-        text: "Om du inte redan finns en aktiv grupp i din kommun så hjälper vi dig att komma igång. Du kan få handledning och hjälp med allt från att hitta samarbeten med butiker och hantera livsmedel på ett säkert sätt, till att ordna en lokal för matutdelning.",
+        text: [
+            "Om du inte redan finns en aktiv grupp i din kommun så hjälper vi dig att komma igång. Du kan få handledning och hjälp med allt från att hitta samarbeten med butiker och hantera livsmedel på ett säkert sätt, till att ordna en lokal för matutdelning.",
+        ],
         variant: "odd" as const,
         bannerImg: startGroupImg,
         hasButton: true,
     },
     {
         title: "Ta emot mat",
-        text: "Du gör miljön en tjänst genom att rädda maten! Alla våra utdelningar är öppna för allmänheten. Ta med egen påse och tänk på att vi är ingen välgörenhetsorganisation, utan vi jobbar solidariskt mot oss själva och mot andra, oavsett inkomst och bakgrund.",
+        text: [
+            "Du gör miljön en tjänst genom att rädda maten! Alla våra utdelningar är öppna för allmänheten. Ta med egen påse och tänk på att vi är ingen välgörenhetsorganisation, utan vi jobbar solidariskt mot oss själva och mot andra, oavsett inkomst och bakgrund.",
+        ],
         variant: "even" as const,
         bgImage: bg,
         bannerImg: taEmotMatImg,

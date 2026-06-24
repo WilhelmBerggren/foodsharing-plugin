@@ -16,7 +16,9 @@
                 alt="Banner"
                 class="body-banner-img"
             />
-            <span>{{ text }}</span>
+            <span v-for="(paragraph, index) in text" :key="index">
+                {{ paragraph }}
+            </span>
             <button v-if="hasButton" class="btn">{{ buttonText }}</button>
         </div>
     </section>
@@ -25,8 +27,8 @@
 <script setup lang="ts">
 interface Props {
     title: string;
-    text: string;
-    variant?: 'even' | 'odd';
+    text: string[];
+    variant?: "even" | "odd";
     bgImage?: string;
     bannerImg?: string;
     hasButton?: boolean;
@@ -34,9 +36,9 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
-    variant: 'even',
+    variant: "even",
     hasButton: false,
-    buttonText: 'Läs mer'
+    buttonText: "Läs mer",
 });
 </script>
 
@@ -55,15 +57,11 @@ withDefaults(defineProps<Props>(), {
         display: flex;
         flex-direction: column;
         align-items: center;
-        text-align: center;
+        text-align: left;
     }
 
     h1 {
         font-size: 2rem;
-        margin-bottom: 1rem;
-    }
-
-    span {
         margin-bottom: 1rem;
     }
 
@@ -86,7 +84,6 @@ withDefaults(defineProps<Props>(), {
 
 .body-section-odd {
     background-color: #b37a1b;
-    color: white;
 }
 
 .btn {
