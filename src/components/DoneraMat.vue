@@ -151,7 +151,7 @@ const page = computed(() =>
 }
 
 .section-gold {
-    background-color: #b37a1b;
+    background-color: #c9a15f;
 }
 
 .section-bg {

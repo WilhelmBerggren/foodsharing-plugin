@@ -1,7 +1,9 @@
 <template>
     <div class="fss-toolbar" ref="root">
         <div class="fss-toolbar-inner">
-            <img :src="logo" alt="Foodsharing Sweden" class="hero-logo" />
+            <a href="/#/welcome2">
+                <img :src="logo" alt="Foodsharing Sweden" class="hero-logo" />
+            </a>
 
             <nav class="toolbar-links">
                 <a href="/#/om-oss">Om oss</a>

@@ -4,7 +4,10 @@
         <template v-if="page">
             <HeroSection v-if="page.hero" :banner="assetUrl(page.hero.banner)">
                 <h1 v-for="(line, i) in page.hero.headingLines" :key="i">
-                    <template v-for="(seg, j) in headingSegments(line)" :key="j">
+                    <template
+                        v-for="(seg, j) in headingSegments(line)"
+                        :key="j"
+                    >
                         <span v-if="seg.hl" class="hl">{{ seg.text }}</span>
                         <template v-else>{{ seg.text }}</template>
                     </template>
@@ -16,7 +19,11 @@
                         v-for="(btn, i) in page.hero.buttons"
                         :key="i"
                         :href="btn.href"
-                        :class="btn.style === 'secondary' ? 'hero-btn-2' : 'hero-btn-1'"
+                        :class="
+                            btn.style === 'secondary'
+                                ? 'hero-btn-2'
+                                : 'hero-btn-1'
+                        "
                     >
                         {{ btn.label }}
                     </component>
@@ -85,8 +92,15 @@ function headingSegments(line: string): { text: string; hl: boolean }[] {
 .hero-section-btns {
     display: flex;
     gap: 16px;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+}
+
+/* Mobile (< 600 px — Quasar xs) */
+@media (max-width: 599px) {
+    .hero-section-btns {
+        flex-direction: column;
+    }
 }
 
 .hero-btn-1,
