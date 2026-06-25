@@ -6,6 +6,7 @@ import DoneraMat from "./components/DoneraMat.vue";
 import TaEmotMat from "./components/TaEmotMat.vue";
 import KontaktaOss from "./components/KontaktaOss.vue";
 import StartaEnGrupp from "./components/StartaEnGrupp.vue";
+import AdminPage from "./components/admin/AdminPage.vue";
 
 export default {
   boot({ router }: { router: Router }) {
@@ -99,6 +100,19 @@ export default {
         ],
       },
       component: StartaEnGrupp,
+    });
+    router.addRoute({
+      name: "fss-admin",
+      path: "/fss-admin",
+      meta: {
+        fullpage: true,
+        breadcrumbs: [
+          {
+            type: "siteName",
+          },
+        ],
+      },
+      component: AdminPage,
     });
   },
 };

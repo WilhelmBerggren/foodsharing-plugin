@@ -1,10 +1,8 @@
 <template>
-    <FssToolbar />
-    <div class="fss-page">
-        <FssFooter />
-    </div>
+    <CmsPage slug="ta-emot-mat" />
 </template>
+
 <script lang="ts" setup>
-import FssToolbar from "./Landing2/components/FssToolbar.vue";
-import FssFooter from "./Landing2/components/FssFooter.vue";
+// Content lives in the CMS (data/ta-emot-mat.json), edited via /#/fss-admin.
+import CmsPage from "./CmsPage.vue";
 </script>

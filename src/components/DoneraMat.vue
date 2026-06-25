@@ -1,8 +1,8 @@
 <template>
-    <FssToolbar />
-    <FssFooter />
+    <CmsPage slug="donera-mat" />
 </template>
+
 <script lang="ts" setup>
-import FssToolbar from "./Landing2/components/FssToolbar.vue";
-import FssFooter from "./Landing2/components/FssFooter.vue";
+// Content lives in the CMS (data/donera-mat.json), edited via /#/fss-admin.
+import CmsPage from "./CmsPage.vue";
 </script>
