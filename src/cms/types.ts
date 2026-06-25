@@ -24,12 +24,26 @@ export interface Section {
   buttonText?: string;
 }
 
+export interface PartnerItem {
+  logo: string; // image path ("/uploads/..") or absolute URL
+  name: string;
+  linkLabel: string;
+  url: string;
+}
+
+export interface PartnerSection {
+  title: string;
+  variant: "even" | "odd";
+  items: PartnerItem[];
+}
+
 export interface GenericPage {
   kind: "generic";
   slug: string;
   title: string;
   hero?: Hero;
   sections: Section[];
+  partnerSections: PartnerSection[];
   showGroups: boolean;
 }
 
@@ -83,11 +97,26 @@ export const ICON_OPTIONS: { name: IconName; label: string }[] = [
 ];
 
 export function emptyPage(slug: string): GenericPage {
-  return { kind: "generic", slug, title: "", sections: [], showGroups: false };
+  return {
+    kind: "generic",
+    slug,
+    title: "",
+    sections: [],
+    partnerSections: [],
+    showGroups: false,
+  };
 }
 
 export function emptySection(): Section {
   return { title: "", text: [""], variant: "even", hasButton: false };
+}
+
+export function emptyPartnerSection(): PartnerSection {
+  return { title: "", variant: "even", items: [] };
+}
+
+export function emptyPartnerItem(): PartnerItem {
+  return { logo: "", name: "", linkLabel: "", url: "" };
 }
 
 export function emptyIconItem(): IconItem {

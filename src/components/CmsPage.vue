@@ -43,6 +43,14 @@
                 :reverse="index % 2 === 0"
             />
 
+            <PartnerSection
+                v-for="(ps, i) in page.partnerSections"
+                :key="`partner-${i}`"
+                :title="ps.title"
+                :variant="ps.variant"
+                :items="ps.items"
+            />
+
             <GroupsSection v-if="page.showGroups" />
         </template>
         <FssFooter />
@@ -53,6 +61,7 @@
 import FssToolbar from "./Landing2/components/FssToolbar.vue";
 import HeroSection from "./Landing2/components/HeroSection.vue";
 import BodySection from "./Landing2/components/BodySection.vue";
+import PartnerSection from "./Landing2/components/PartnerSection.vue";
 import GroupsSection from "./Landing2/components/GroupsSection.vue";
 import FssFooter from "./Landing2/components/FssFooter.vue";
 import { computed } from "vue";

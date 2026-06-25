@@ -126,6 +126,8 @@
                     <button type="button" class="ghost" @click="addSection">+ sektion</button>
                 </fieldset>
 
+                <PartnerSectionsEditor :sections="draft.partnerSections" />
+
                 <label class="inline">
                     <input type="checkbox" v-model="draft.showGroups" /> Visa grupp-sektionen
                 </label>
@@ -164,6 +166,7 @@ import {
 } from "../../cms/types";
 import ImageField from "./ImageField.vue";
 import DoneraEditor from "./DoneraEditor.vue";
+import PartnerSectionsEditor from "./PartnerSectionsEditor.vue";
 
 const queryClient = useQueryClient();
 
