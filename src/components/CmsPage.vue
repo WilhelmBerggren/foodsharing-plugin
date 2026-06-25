@@ -4,7 +4,10 @@
         <template v-if="page">
             <HeroSection v-if="page.hero" :banner="assetUrl(page.hero.banner)">
                 <h1 v-for="(line, i) in page.hero.headingLines" :key="i">
-                    {{ line }}
+                    <template v-for="(seg, j) in headingSegments(line)" :key="j">
+                        <span v-if="seg.hl" class="hl">{{ seg.text }}</span>
+                        <template v-else>{{ seg.text }}</template>
+                    </template>
                 </h1>
                 <h2 v-if="page.hero.subtitle">{{ page.hero.subtitle }}</h2>
                 <div v-if="page.hero.buttons.length" class="hero-section-btns">
@@ -30,6 +33,7 @@
                 :banner-img="assetUrl(section.bannerImg)"
                 :has-button="section.hasButton"
                 :button-text="section.buttonText"
+                :reverse="index % 2 === 0"
             />
 
             <GroupsSection v-if="page.showGroups" />
@@ -44,14 +48,32 @@ import HeroSection from "./Landing2/components/HeroSection.vue";
 import BodySection from "./Landing2/components/BodySection.vue";
 import GroupsSection from "./Landing2/components/GroupsSection.vue";
 import FssFooter from "./Landing2/components/FssFooter.vue";
+import { computed } from "vue";
 import { usePage } from "../cms/usePage";
 import { assetUrl } from "../cms/client";
 
 const props = defineProps<{ slug: string }>();
 
-// `data` is renamed to `page`; while loading it is undefined and we render
-// just the toolbar + footer so the layout never looks broken.
-const { data: page } = usePage(() => props.slug);
+// While loading, `page` is undefined and we render just the toolbar + footer
+// so the layout never looks broken. CmsPage only renders generic pages, so we
+// narrow to that kind (rich pages like Donera mat have their own components).
+const { data } = usePage(() => props.slug);
+const page = computed(() =>
+    data.value?.kind === "generic" ? data.value : undefined,
+);
+
+// Heading lines support a lightweight highlight syntax: wrap a word in
+// *asterisks* to render it as the italic accent span (e.g. "Mer *gemenskap*").
+function headingSegments(line: string): { text: string; hl: boolean }[] {
+    return line
+        .split(/(\*[^*]+\*)/)
+        .filter((part) => part.length > 0)
+        .map((part) =>
+            part.startsWith("*") && part.endsWith("*")
+                ? { text: part.slice(1, -1), hl: true }
+                : { text: part, hl: false },
+        );
+}
 </script>
 
 <style scoped>
@@ -106,9 +128,15 @@ h1 {
     letter-spacing: -1.9%;
     text-align: center;
     margin: 0px;
-    color: black;
+    color: #2d3b2d;
     -webkit-text-stroke: 9px white;
     paint-order: stroke fill;
+}
+
+h1 .hl {
+    font-style: italic;
+    color: #b37a1b;
+    -webkit-text-stroke: 18px white;
 }
 
 h2 {

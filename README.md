@@ -48,8 +48,13 @@ A matching `data/<slug>.json` must exist in the CMS (the seed script creates one
 per route). The route registration in `main.ts` is unchanged.
 
 > Notes:
-> - `Landing2` lost the italic highlight on the word "gemenskap" (the generic
->   hero renders heading lines as plain text). Everything else is faithful.
+> - Pages come in two CMS kinds. Most are `generic` (hero + body sections,
+>   rendered by `CmsPage`). `donera-mat` is a `donera` page: a fixed rich layout
+>   (`DoneraMat.vue`) whose text, button links, and step/benefit items — incl.
+>   each item's icon — are CMS-editable via a dedicated editor. Icons are chosen
+>   from a fixed set (`CmsIcon.vue` maps names to the SVG/PNG artwork).
+> - Hero heading lines support an accent syntax: wrap a word in `*asterisks*`
+>   (e.g. `Mer *gemenskap*`) to render it as the italic gold highlight.
 > - `Landing.vue` (`/welcome`) has a fully custom design — its own hero with
 >   login/signup buttons, an about section with a bulleted list, and a contact
 >   footer. It doesn't fit the `hero + BodySection` model, so it's intentionally

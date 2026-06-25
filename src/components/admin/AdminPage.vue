@@ -32,7 +32,8 @@
                 <button class="ghost" type="button" @click="doLogout">Logga ut</button>
             </header>
 
-            <div v-if="draft" class="form">
+            <div v-if="draft || doneraDraft" class="form">
+                <template v-if="draft">
                 <label class="field">
                     <span>Sidtitel</span>
                     <input v-model="draft.title" type="text" />
@@ -56,6 +57,10 @@
                                 rows="2"
                                 @input="draft.hero.headingLines = lines($event)"
                             />
+                            <small class="hint">
+                                Omge ord med *asterisker* för att framhäva dem
+                                (t.ex. Mer *gemenskap*).
+                            </small>
                         </label>
                         <label class="field">
                             <span>Underrubrik</span>
@@ -124,6 +129,9 @@
                 <label class="inline">
                     <input type="checkbox" v-model="draft.showGroups" /> Visa grupp-sektionen
                 </label>
+                </template>
+
+                <DoneraEditor v-else-if="doneraDraft" :page="doneraDraft" />
 
                 <div class="actions">
                     <button type="button" :disabled="saving" @click="save">
@@ -148,8 +156,14 @@ import {
     logout,
     savePage,
 } from "../../cms/client";
-import { emptySection, type Page } from "../../cms/types";
+import {
+    emptySection,
+    type Page,
+    type GenericPage,
+    type DoneraPage,
+} from "../../cms/types";
 import ImageField from "./ImageField.vue";
+import DoneraEditor from "./DoneraEditor.vue";
 
 const queryClient = useQueryClient();
 
@@ -160,7 +174,8 @@ const loginError = ref("");
 
 const pages = ref<Page[]>([]);
 const selectedSlug = ref("");
-const draft = ref<Page | null>(null);
+const draft = ref<GenericPage | null>(null);
+const doneraDraft = ref<DoneraPage | null>(null);
 const saving = ref(false);
 const saveMsg = ref("");
 const saveOk = ref(false);
@@ -187,6 +202,7 @@ function doLogout() {
     logout();
     authed.value = false;
     draft.value = null;
+    doneraDraft.value = null;
     selectedSlug.value = "";
 }
 
@@ -198,7 +214,14 @@ async function loadSelected() {
     if (!selectedSlug.value) return;
     saveMsg.value = "";
     const page = await fetchPage(selectedSlug.value);
-    draft.value = JSON.parse(JSON.stringify(page)) as Page;
+    const clone = JSON.parse(JSON.stringify(page)) as Page;
+    if (clone.kind === "donera") {
+        doneraDraft.value = clone;
+        draft.value = null;
+    } else {
+        draft.value = clone;
+        doneraDraft.value = null;
+    }
 }
 
 function lines(e: Event): string[] {
@@ -232,11 +255,12 @@ function move(i: number, dir: -1 | 1) {
 }
 
 async function save() {
-    if (!draft.value) return;
+    const current = doneraDraft.value ?? draft.value;
+    if (!current) return;
     saving.value = true;
     saveMsg.value = "";
     try {
-        const saved = await savePage(draft.value);
+        const saved = await savePage(current);
         // Refresh the public page cache so live pages pick up the change.
         await queryClient.invalidateQueries({ queryKey: ["cms-page"] });
         await loadPages();
