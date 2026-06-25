@@ -22,6 +22,17 @@ export interface Section {
   bannerImg?: string;
   hasButton: boolean;
   buttonText?: string;
+  buttonHref?: string;
+}
+
+export interface LinkItem {
+  label: string;
+  href: string;
+}
+
+export interface LinkSection {
+  title: string;
+  items: LinkItem[];
 }
 
 export interface PartnerItem {
@@ -44,6 +55,7 @@ export interface GenericPage {
   hero?: Hero;
   sections: Section[];
   partnerSections: PartnerSection[];
+  linkSections: LinkSection[];
   showGroups: boolean;
 }
 
@@ -83,7 +95,25 @@ export interface DoneraPage {
   contact: Cta;
 }
 
-export type Page = GenericPage | DoneraPage;
+export interface GuidePage {
+  kind: "guide";
+  slug: string;
+  title: string;
+  banner: string;
+  body: string[];
+}
+
+export interface ContactPage {
+  kind: "contact";
+  slug: string;
+  title: string;
+  heading: string;
+  subtitle: string;
+  emailCard: { heading: string; email: string; note: string };
+  socialHeading: string;
+}
+
+export type Page = GenericPage | DoneraPage | GuidePage | ContactPage;
 
 /** Icon choices offered in the editor (label is Swedish for the UI). */
 export const ICON_OPTIONS: { name: IconName; label: string }[] = [
@@ -103,8 +133,17 @@ export function emptyPage(slug: string): GenericPage {
     title: "",
     sections: [],
     partnerSections: [],
+    linkSections: [],
     showGroups: false,
   };
+}
+
+export function emptyLinkSection(): LinkSection {
+  return { title: "", items: [] };
+}
+
+export function emptyLinkItem(): LinkItem {
+  return { label: "", href: "" };
 }
 
 export function emptySection(): Section {

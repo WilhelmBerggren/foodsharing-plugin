@@ -13,7 +13,15 @@
                 <span v-for="(paragraph, index) in text" :key="index">
                     {{ paragraph }}
                 </span>
-                <button v-if="hasButton" class="btn">{{ buttonText }}</button>
+                <a
+                    v-if="hasButton && buttonHref"
+                    class="btn"
+                    :href="buttonHref"
+                    >{{ buttonText }}</a
+                >
+                <button v-else-if="hasButton" class="btn">
+                    {{ buttonText }}
+                </button>
             </div>
             <div v-if="bannerImg" class="body-media">
                 <img
@@ -36,6 +44,7 @@ interface Props {
     bannerImg?: string;
     hasButton?: boolean;
     buttonText?: string;
+    buttonHref?: string;
     // When true (and an image is present), the image sits on the left and text
     // on the right. CmsPage alternates this per section for a zig-zag layout.
     reverse?: boolean;
@@ -139,6 +148,8 @@ withDefaults(defineProps<Props>(), {
     color: white;
     cursor: pointer;
     transition: opacity 0.2s;
+    text-decoration: none;
+    display: inline-block;
 }
 
 .btn:hover {

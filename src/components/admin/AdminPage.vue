@@ -32,7 +32,10 @@
                 <button class="ghost" type="button" @click="doLogout">Logga ut</button>
             </header>
 
-            <div v-if="draft || doneraDraft" class="form">
+            <div
+                v-if="draft || doneraDraft || guideDraft || contactDraft"
+                class="form"
+            >
                 <template v-if="draft">
                 <label class="field">
                     <span>Sidtitel</span>
@@ -117,6 +120,7 @@
                                 <input type="checkbox" v-model="section.hasButton" /> knapp
                             </label>
                             <input v-if="section.hasButton" v-model="section.buttonText" placeholder="Knapptext" />
+                            <input v-if="section.hasButton" v-model="section.buttonHref" placeholder="Knapplänk (#/...)" />
                         </div>
                         <div class="row">
                             <ImageField v-model="section.bgImage" label="Bakgrundsbild" />
@@ -128,12 +132,21 @@
 
                 <PartnerSectionsEditor :sections="draft.partnerSections" />
 
+                <LinkSectionsEditor :sections="draft.linkSections" />
+
                 <label class="inline">
                     <input type="checkbox" v-model="draft.showGroups" /> Visa grupp-sektionen
                 </label>
                 </template>
 
                 <DoneraEditor v-else-if="doneraDraft" :page="doneraDraft" />
+
+                <GuideEditor v-else-if="guideDraft" :page="guideDraft" />
+
+                <ContactEditor
+                    v-else-if="contactDraft"
+                    :page="contactDraft"
+                />
 
                 <div class="actions">
                     <button type="button" :disabled="saving" @click="save">
@@ -163,10 +176,15 @@ import {
     type Page,
     type GenericPage,
     type DoneraPage,
+    type GuidePage,
+    type ContactPage,
 } from "../../cms/types";
 import ImageField from "./ImageField.vue";
 import DoneraEditor from "./DoneraEditor.vue";
+import GuideEditor from "./GuideEditor.vue";
+import ContactEditor from "./ContactEditor.vue";
 import PartnerSectionsEditor from "./PartnerSectionsEditor.vue";
+import LinkSectionsEditor from "./LinkSectionsEditor.vue";
 
 const queryClient = useQueryClient();
 
@@ -179,6 +197,8 @@ const pages = ref<Page[]>([]);
 const selectedSlug = ref("");
 const draft = ref<GenericPage | null>(null);
 const doneraDraft = ref<DoneraPage | null>(null);
+const guideDraft = ref<GuidePage | null>(null);
+const contactDraft = ref<ContactPage | null>(null);
 const saving = ref(false);
 const saveMsg = ref("");
 const saveOk = ref(false);
@@ -206,6 +226,8 @@ function doLogout() {
     authed.value = false;
     draft.value = null;
     doneraDraft.value = null;
+    guideDraft.value = null;
+    contactDraft.value = null;
     selectedSlug.value = "";
 }
 
@@ -218,12 +240,18 @@ async function loadSelected() {
     saveMsg.value = "";
     const page = await fetchPage(selectedSlug.value);
     const clone = JSON.parse(JSON.stringify(page)) as Page;
+    draft.value = null;
+    doneraDraft.value = null;
+    guideDraft.value = null;
+    contactDraft.value = null;
     if (clone.kind === "donera") {
         doneraDraft.value = clone;
-        draft.value = null;
+    } else if (clone.kind === "guide") {
+        guideDraft.value = clone;
+    } else if (clone.kind === "contact") {
+        contactDraft.value = clone;
     } else {
         draft.value = clone;
-        doneraDraft.value = null;
     }
 }
 
@@ -258,7 +286,11 @@ function move(i: number, dir: -1 | 1) {
 }
 
 async function save() {
-    const current = doneraDraft.value ?? draft.value;
+    const current =
+        doneraDraft.value ??
+        guideDraft.value ??
+        contactDraft.value ??
+        draft.value;
     if (!current) return;
     saving.value = true;
     saveMsg.value = "";

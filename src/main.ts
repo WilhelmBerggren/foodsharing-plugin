@@ -7,6 +7,7 @@ import TaEmotMat from "./components/TaEmotMat.vue";
 import KontaktaOss from "./components/KontaktaOss.vue";
 import StartaEnGrupp from "./components/StartaEnGrupp.vue";
 import AdminPage from "./components/admin/AdminPage.vue";
+import GuidePage from "./components/GuidePage.vue";
 
 export default {
   boot({ router }: { router: Router }) {
@@ -114,5 +115,23 @@ export default {
       },
       component: AdminPage,
     });
+
+    const guideMeta = {
+      fullpage: true,
+      breadcrumbs: [{ type: "siteName" }],
+    };
+    for (const slug of [
+      "guide-samarbete-butiker",
+      "guide-verksamheten-igang",
+      "guide-mathantering",
+    ]) {
+      router.addRoute({
+        name: slug,
+        path: `/${slug}`,
+        meta: guideMeta,
+        component: GuidePage,
+        props: { slug },
+      });
+    }
   },
 };

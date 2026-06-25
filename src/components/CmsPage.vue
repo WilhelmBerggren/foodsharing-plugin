@@ -40,6 +40,7 @@
                 :banner-img="assetUrl(section.bannerImg)"
                 :has-button="section.hasButton"
                 :button-text="section.buttonText"
+                :button-href="section.buttonHref"
                 :reverse="index % 2 === 0"
             />
 
@@ -52,6 +53,13 @@
             />
 
             <GroupsSection v-if="page.showGroups" />
+
+            <LinkSection
+                v-for="(ls, i) in page.linkSections"
+                :key="`links-${i}`"
+                :title="ls.title"
+                :items="ls.items"
+            />
         </template>
         <FssFooter />
     </div>
@@ -62,6 +70,7 @@ import FssToolbar from "./Landing2/components/FssToolbar.vue";
 import HeroSection from "./Landing2/components/HeroSection.vue";
 import BodySection from "./Landing2/components/BodySection.vue";
 import PartnerSection from "./Landing2/components/PartnerSection.vue";
+import LinkSection from "./Landing2/components/LinkSection.vue";
 import GroupsSection from "./Landing2/components/GroupsSection.vue";
 import FssFooter from "./Landing2/components/FssFooter.vue";
 import { computed } from "vue";
