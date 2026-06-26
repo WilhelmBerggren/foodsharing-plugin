@@ -66,13 +66,13 @@
 </template>
 
 <script lang="ts" setup>
-import FssToolbar from "./Landing2/components/FssToolbar.vue";
-import HeroSection from "./Landing2/components/HeroSection.vue";
-import BodySection from "./Landing2/components/BodySection.vue";
-import PartnerSection from "./Landing2/components/PartnerSection.vue";
-import LinkSection from "./Landing2/components/LinkSection.vue";
-import GroupsSection from "./Landing2/components/GroupsSection.vue";
-import FssFooter from "./Landing2/components/FssFooter.vue";
+import FssToolbar from "./shared/FssToolbar.vue";
+import HeroSection from "./shared/HeroSection.vue";
+import BodySection from "./shared/BodySection.vue";
+import PartnerSection from "./shared/PartnerSection.vue";
+import LinkSection from "./shared/LinkSection.vue";
+import GroupsSection from "./shared/GroupsSection.vue";
+import FssFooter from "./shared/FssFooter.vue";
 import { computed } from "vue";
 import { usePage } from "../cms/usePage";
 import { assetUrl } from "../cms/client";

@@ -47,8 +47,8 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { useRouter } from "vue-router";
-import FssToolbar from "./Landing2/components/FssToolbar.vue";
-import FssFooter from "./Landing2/components/FssFooter.vue";
+import FssToolbar from "./shared/FssToolbar.vue";
+import FssFooter from "./shared/FssFooter.vue";
 import { usePage } from "../cms/usePage";
 import { assetUrl } from "../cms/client";
 import type { GuidePage } from "../cms/types";

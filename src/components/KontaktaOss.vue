@@ -102,9 +102,9 @@
 
 <script lang="ts" setup>
 import { computed } from "vue";
-import FssToolbar from "./Landing2/components/FssToolbar.vue";
-import HeroSection from "./Landing2/components/HeroSection.vue";
-import FssFooter from "./Landing2/components/FssFooter.vue";
+import FssToolbar from "./shared/FssToolbar.vue";
+import HeroSection from "./shared/HeroSection.vue";
+import FssFooter from "./shared/FssFooter.vue";
 import { usePage } from "../cms/usePage";
 import type { ContactPage } from "../cms/types";
 
